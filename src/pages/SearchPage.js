@@ -3,8 +3,10 @@ import { FlightsContext } from '../contexts/FlightsContext'
 import SearchForm from '../components/SearchForm'
 import SearchResults from '../components/SearchResults'
 
-const SearchPage = () => {
+const SearchPage = (data) => {
+	console.log(data)
 	const { flights: allFlights } = useContext(FlightsContext)
+	console.log(allFlights);
 	const [flights, setFlights] = useState([])
 
 	const handleSearch = data => {
