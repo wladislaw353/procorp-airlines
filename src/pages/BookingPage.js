@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import BookingForm from '../components/BookingForm'
 import BookingConfirmation from '../components/BookingConfirmation'
 import { apiRequest } from '../utils/api'
+import { Container } from '@mui/material'
 
 const BookingPage = () => {
 	const [order, setOrder] = useState(null)
@@ -17,7 +18,11 @@ const BookingPage = () => {
 		}
 	}
 
-	return <>{!order ? <BookingForm onBooking={handleBooking} /> : <BookingConfirmation order={order} />}</>
+	return (
+		<Container>
+			{!order ? <BookingForm onBooking={handleBooking} /> : <BookingConfirmation order={order} />}
+		</Container>
+	)
 }
 
 export default BookingPage

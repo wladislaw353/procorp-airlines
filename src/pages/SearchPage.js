@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react'
 import { FlightsContext } from '../contexts/FlightsContext'
 import SearchForm from '../components/SearchForm'
 import SearchResults from '../components/SearchResults'
+import { Container } from '@mui/material'
 
-const SearchPage = (data) => {
+const SearchPage = data => {
 	console.log(data)
 	const { flights: allFlights } = useContext(FlightsContext)
-	console.log(allFlights);
+	console.log(allFlights)
 	const [flights, setFlights] = useState([])
 
 	const handleSearch = data => {
@@ -25,10 +26,10 @@ const SearchPage = (data) => {
 	}
 
 	return (
-		<>
+		<Container>
 			<SearchForm onSearch={handleSearch} />
 			{flights.length > 0 && <SearchResults />}
-		</>
+		</Container>
 	)
 }
 

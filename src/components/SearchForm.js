@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { FlightsContext } from '../contexts/FlightsContext'
 import { Box, Button, Grid, Slider, TextField, Typography } from '@mui/material'
 
@@ -15,6 +15,10 @@ const SearchForm = ({ onSearch }) => {
 	const [priceRange, setPriceRange] = useState([minPrice, maxPrice])
 	const [seats, setSeats] = useState(1)
 	const [error, setError] = useState(null)
+
+	useEffect(() => {
+		setPriceRange([minPrice, maxPrice])
+	}, [minPrice, maxPrice])
 
 	const handleSearch = e => {
 		e.preventDefault()
@@ -39,7 +43,7 @@ const SearchForm = ({ onSearch }) => {
 	return (
 		<Box component="section" mb={4}>
 			<Typography variant="h5" component="h2" gutterBottom>
-                Flight Search
+				Flight Search
 			</Typography>
 			{error && (
 				<Box mb={2}>
@@ -102,9 +106,18 @@ const SearchForm = ({ onSearch }) => {
 							}}
 						/>
 					</Grid>
-					<Grid item xs={12}>
+					<Grid item xs={12} sm={6}>
+						<TextField
+							label="Number of seats"
+							type="number"
+							value={seats}
+							onChange={e => setSeats(e.target.value)}
+							fullWidth
+						/>
+					</Grid>
+					<Grid item xs={12} sm={6}>
 						<Typography id="price-range-slider" gutterBottom>
-							Цена: {priceRange[0]} - {priceRange[1]}
+							Price: {priceRange[0]} – {priceRange[1]}
 						</Typography>
 						<Slider
 							value={priceRange}
@@ -113,15 +126,6 @@ const SearchForm = ({ onSearch }) => {
 							aria-labelledby="price-range-slider"
 							min={minPrice}
 							max={maxPrice}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<TextField
-							label="Number of seats"
-							type="number"
-							value={seats}
-							onChange={e => setSeats(e.target.value)}
-							fullWidth
 						/>
 					</Grid>
 					<Grid item xs={12}>

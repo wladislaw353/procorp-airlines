@@ -13,6 +13,7 @@ export const FlightsProvider = ({ children }) => {
 			if (response) {
 				const flights = response
 				setFlights(flights)
+				console.log('ffffffff')
 			} else {
 				// error
 				console.log('error')
