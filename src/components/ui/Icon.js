@@ -1,5 +1,5 @@
-import * as React from 'react'
-import * as Icons from '@mui/icons-material'
+import React from 'react'
+import Icons from '@mui/icons-material'
 
 function Icon({ name }) {
 	const IconComponent = Icons[name]
