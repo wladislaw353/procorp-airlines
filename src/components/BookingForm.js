@@ -73,7 +73,7 @@ const BookingForm = ({ onBooking }) => {
 					</Grid>
 					<Grid item xs={12}>
 						<Typography variant="h6" component="p">
-							Total: {selectedFlight.price * selectedSeats.length} ₽
+							Total: {selectedFlight.price * selectedSeats.length} €
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>

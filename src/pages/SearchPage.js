@@ -2,24 +2,26 @@ import React, { useContext, useState } from 'react'
 import { FlightsContext } from '../contexts/FlightsContext'
 import SearchForm from '../components/SearchForm'
 import SearchResults from '../components/SearchResults'
-import { Container } from '@mui/material'
+import { Container, Typography } from '@mui/material'
 
-const SearchPage = data => {
-	console.log(data)
+const SearchPage = () => {
 	const { flights: allFlights } = useContext(FlightsContext)
-	console.log(allFlights)
 	const [flights, setFlights] = useState([])
 
 	const handleSearch = data => {
 		const filteredFlights = allFlights.filter(flight => {
 			return (
-				flight.from === data.from &&
-				flight.to === data.to &&
-				new Date(flight.departure) >= new Date(`${data.departureDate}T${data.departureTime}`) &&
-				new Date(flight.arrival) <= new Date(`${data.arrivalDate}T${data.arrivalTime}`) &&
-				flight.price >= data.minPrice &&
-				flight.price <= data.maxPrice &&
-				flight.seats.filter(seat => seat.available).length >= data.seats
+				(data.from ? flight.from === data.from : true) &&
+				(data.to ? flight.to === data.to : true) &&
+				(data.departureDate && data.departureTime
+					? new Date(flight.departure) >= new Date(`${data.departureDate}T${data.departureTime}`)
+					: true) &&
+				(data.arrivalDate && data.arrivalTime
+					? new Date(flight.arrival) <= new Date(`${data.arrivalDate}T${data.arrivalTime}`)
+					: true) &&
+				(data.minPrice ? flight.price >= data.minPrice : true) &&
+				(data.maxPrice ? flight.price <= data.maxPrice : true) &&
+				(data.seats ? flight.seats.filter(seat => seat.available).length >= data.seats : true)
 			)
 		})
 		setFlights(filteredFlights)
@@ -28,7 +30,11 @@ const SearchPage = data => {
 	return (
 		<Container>
 			<SearchForm onSearch={handleSearch} />
-			{flights.length > 0 && <SearchResults />}
+			{flights.length > 0 ? (
+				<SearchResults flights={flights} />
+			) : (
+				<Typography variant="body1">Nothing found</Typography>
+			)}
 		</Container>
 	)
 }

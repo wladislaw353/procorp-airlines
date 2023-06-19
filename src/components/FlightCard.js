@@ -26,12 +26,12 @@ const FlightCard = ({ flight, setSelectedFlight }) => {
 				</Box>
 				<Typography variant="body1">Duration: {flight.duration}</Typography>
 				<Typography variant="h5" component="p">
-					{flight.price} ₽
+					{flight.price} €
 				</Typography>
 			</CardContent>
 			<CardActions>
 				<Button size="small" color="primary" onClick={handleSelect}>
-					Choose
+					Book
 				</Button>
 			</CardActions>
 		</Card>

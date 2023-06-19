@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { FlightsContext } from '../contexts/FlightsContext'
-import { Box, Button, Grid, Slider, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, Slider, TextField, Typography, Alert } from '@mui/material'
 
 const SearchForm = ({ onSearch }) => {
 	const { flights } = useContext(FlightsContext)
@@ -22,8 +22,16 @@ const SearchForm = ({ onSearch }) => {
 
 	const handleSearch = e => {
 		e.preventDefault()
+		if (!to) {
+			setError('Enter city of arrival')
+			return
+		}
 		if (new Date(`${arrivalDate}T${arrivalTime}`) < new Date(`${departureDate}T${departureTime}`)) {
-			setError('Enter the correct date and time')
+			setError('Incorrect date')
+			return
+		}
+		if (seats < 1) {
+			setError('Minimum 1 seat')
 			return
 		}
 		setError(null)
@@ -42,14 +50,15 @@ const SearchForm = ({ onSearch }) => {
 
 	return (
 		<Box component="section" mb={4}>
+			{error && (
+				<>
+					<Alert severity="error">{error}</Alert>
+					<br />
+				</>
+			)}
 			<Typography variant="h5" component="h2" gutterBottom>
 				Flight Search
 			</Typography>
-			{error && (
-				<Box mb={2}>
-					<Typography color="error">{error}</Typography>
-				</Box>
-			)}
 			<form onSubmit={handleSearch}>
 				<Grid container spacing={2}>
 					<Grid item xs={12} sm={6}>
@@ -117,7 +126,7 @@ const SearchForm = ({ onSearch }) => {
 					</Grid>
 					<Grid item xs={12} sm={6}>
 						<Typography id="price-range-slider" gutterBottom>
-							Price: {priceRange[0]} – {priceRange[1]}
+							Price: {priceRange[0]} – {priceRange[1]} €
 						</Typography>
 						<Slider
 							value={priceRange}

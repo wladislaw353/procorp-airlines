@@ -1,11 +1,8 @@
 import React, { useContext } from 'react'
-import { FlightsContext } from '../contexts/FlightsContext'
 import { Box, Grid, Typography } from '@mui/material'
 import FlightCard from './FlightCard'
 
-const SearchResults = () => {
-	const { flights } = useContext(FlightsContext)
-
+const SearchResults = ({ flights }) => {
 	return (
 		<Box component="section">
 			<Typography variant="h5" component="h2" gutterBottom>
