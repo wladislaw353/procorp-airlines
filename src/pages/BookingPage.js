@@ -1,26 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import BookingForm from '../components/BookingForm'
 import BookingConfirmation from '../components/BookingConfirmation'
+import { FlightsContext } from '../contexts/FlightsContext'
 import { apiRequest } from '../utils/api'
-import { Container } from '@mui/material'
+import { Container, Alert } from '@mui/material'
 
 const BookingPage = () => {
-	const [order, setOrder] = useState(null)
+	const { order, setOrder } = useContext(FlightsContext)
+	const [error, setError] = useState(null)
 
 	const handleBooking = async data => {
-		const response = await apiRequest('/api-imitation/order.json', data, 'POST')
+		const response = true //await apiRequest('/api/order', data, 'POST')
+		// Exapmle of API request. response set true for setOrder
 		if (response) {
-			const order = response
-			setOrder(order)
+			setOrder(data)
 		} else {
-			// error
-			console.log('error')
+			setError('Failed to book flight. Please try again later')
 		}
 	}
 
 	return (
 		<Container>
-			{!order ? <BookingForm onBooking={handleBooking} /> : <BookingConfirmation order={order} />}
+			{error && (
+				<>
+					<Alert severity="error">{error}</Alert>
+					<br />
+				</>
+			)}
+			{!order ? <BookingForm onBooking={handleBooking} /> : <BookingConfirmation />}
 		</Container>
 	)
 }

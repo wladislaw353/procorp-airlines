@@ -7,6 +7,7 @@ export const FlightsContext = createContext()
 export const FlightsProvider = ({ children }) => {
 	const [flights, setFlights] = useState([])
 	const [selectedFlight, setSelectedFlight] = useState(null)
+	const [order, setOrder] = useState(null)
 	const [error, setError] = useState(null)
 
 	useEffect(() => {
@@ -23,7 +24,7 @@ export const FlightsProvider = ({ children }) => {
 	}, [])
 
 	return (
-		<FlightsContext.Provider value={{ flights, setFlights, selectedFlight, setSelectedFlight }}>
+		<FlightsContext.Provider value={{ flights, setFlights, selectedFlight, setSelectedFlight, order, setOrder }}>
 			{error ? (
 				<Container>
 					<Alert severity="error">{error}</Alert>

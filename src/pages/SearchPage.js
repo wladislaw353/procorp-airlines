@@ -5,14 +5,15 @@ import SearchResults from '../components/SearchResults'
 import { Container, Typography } from '@mui/material'
 
 const SearchPage = () => {
-	const { flights: allFlights } = useContext(FlightsContext)
+	const { flights: allFlights, setSelectedFlight } = useContext(FlightsContext)
 	const [flights, setFlights] = useState([])
+	const [searched, setSearched] = useState(false)
 
 	const handleSearch = data => {
 		const filteredFlights = allFlights.filter(flight => {
 			return (
-				(data.from ? flight.from === data.from : true) &&
-				(data.to ? flight.to === data.to : true) &&
+				(data.from ? flight.from.toLowerCase() === data.from.toLowerCase() : true) &&
+				(data.to ? flight.to.toLowerCase() === data.to.toLowerCase() : true) &&
 				(data.departureDate && data.departureTime
 					? new Date(flight.departure) >= new Date(`${data.departureDate}T${data.departureTime}`)
 					: true) &&
@@ -25,16 +26,18 @@ const SearchPage = () => {
 			)
 		})
 		setFlights(filteredFlights)
+		setSearched(true)
 	}
 
 	return (
 		<Container>
 			<SearchForm onSearch={handleSearch} />
-			{flights.length > 0 ? (
-				<SearchResults flights={flights} />
-			) : (
-				<Typography variant="body1">Nothing found</Typography>
-			)}
+			{searched &&
+				(flights.length > 0 ? (
+					<SearchResults flights={flights} setSelectedFlight={setSelectedFlight} />
+				) : (
+					<Typography variant="body1">Nothing found</Typography>
+				))}
 		</Container>
 	)
 }

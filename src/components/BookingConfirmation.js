@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { FlightsContext } from '../contexts/FlightsContext'
 import { Box, Grid, Typography } from '@mui/material'
 
-const BookingConfirmation = ({ order }) => {
-	const { selectedFlight } = useContext(FlightsContext)
+const BookingConfirmation = () => {
+	const { selectedFlight, order } = useContext(FlightsContext)
 
 	return (
 		<Box component="section" mb={4}>

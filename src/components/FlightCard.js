@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { Box, Button, Card, CardActions, CardContent, Typography } from '@mui/material'
 
 const FlightCard = ({ flight, setSelectedFlight }) => {
-	const history = useNavigate()
+	const navigate = useNavigate()
 
 	const handleSelect = () => {
 		setSelectedFlight(flight)
-		history.push('/booking')
+		navigate('/booking')
 	}
 
 	return (
