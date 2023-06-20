@@ -1,9 +1,24 @@
 import React, { useContext } from 'react'
 import { FlightsContext } from '../contexts/FlightsContext'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Button, Grid, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 const BookingConfirmation = () => {
-	const { selectedFlight, order } = useContext(FlightsContext)
+	const { order } = useContext(FlightsContext)
+
+	if (!order) {
+		return (
+			<Box component="section" mb={4}>
+				<Typography variant="h5" component="h2" gutterBottom>
+					No booking found
+				</Typography>
+				<Typography variant="body1">It looks like you haven't made a booking yet</Typography>
+				<Button component={Link} to="/" variant="contained" color="primary">
+					Search flight
+				</Button>
+			</Box>
+		)
+	}
 
 	return (
 		<Box component="section" mb={4}>
@@ -12,31 +27,17 @@ const BookingConfirmation = () => {
 			</Typography>
 			<Grid container spacing={2}>
 				<Grid item xs={12}>
-					<Typography variant="body1">
-						Flight: {selectedFlight.from} → {selectedFlight.to}
-					</Typography>
-					<Typography variant="body1">
-						Departure: {new Date(selectedFlight.departure).toLocaleString()}
-					</Typography>
-					<Typography variant="body1">
-						Arrival: {new Date(selectedFlight.arrival).toLocaleString()}
-					</Typography>
-					<Typography variant="body1">Duration: {selectedFlight.duration}</Typography>
-					<Typography variant="body1">Cost: {order.totalPrice} €</Typography>
-				</Grid>
-				<Grid item xs={12}>
 					<Typography variant="body1">Name: {order.fullName}</Typography>
-				</Grid>
-				<Grid item xs={12}>
 					<Typography variant="body1">
 						Order date and time: {new Date(order.createdAt).toLocaleString()}
 					</Typography>
+					<Typography variant="body1">Cost: {order.totalPrice} €</Typography>
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1">Seats reserved:</Typography>
 					<ul>
-						{order.seats.map(seat => (
-							<li key={seat.id}>{seat.number}</li>
+						{order.seats.map((seat, index) => (
+							<li key={index}>{seat.number}</li>
 						))}
 					</ul>
 				</Grid>

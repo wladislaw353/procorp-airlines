@@ -3,7 +3,7 @@ import { FlightsContext } from '../contexts/FlightsContext'
 import { Box, Button, Grid, Slider, TextField, Typography, Alert } from '@mui/material'
 
 const SearchForm = ({ onSearch }) => {
-	const { flights } = useContext(FlightsContext)
+	const { flights, setOrder } = useContext(FlightsContext)
 	const minPrice = Math.min(...flights.map(flight => flight.price))
 	const maxPrice = Math.max(...flights.map(flight => flight.price))
 	const [from, setFrom] = useState('')
@@ -15,6 +15,10 @@ const SearchForm = ({ onSearch }) => {
 	const [priceRange, setPriceRange] = useState([minPrice, maxPrice])
 	const [seats, setSeats] = useState(1)
 	const [error, setError] = useState(null)
+
+	useEffect(() => {
+		setOrder(null)
+	}, [])
 
 	useEffect(() => {
 		setPriceRange([minPrice, maxPrice])

@@ -7,7 +7,7 @@ export const FlightsContext = createContext()
 export const FlightsProvider = ({ children }) => {
 	const [flights, setFlights] = useState([])
 	const [selectedFlight, setSelectedFlight] = useState(null)
-	const [order, setOrder] = useState(null)
+	const [order, setOrder] = useState(JSON.parse(localStorage.getItem('order')))
 	const [error, setError] = useState(null)
 
 	useEffect(() => {
@@ -22,6 +22,10 @@ export const FlightsProvider = ({ children }) => {
 		}
 		fetchData()
 	}, [])
+
+	useEffect(() => {
+		localStorage.setItem('order', JSON.stringify(order))
+	}, [order])
 
 	return (
 		<FlightsContext.Provider value={{ flights, setFlights, selectedFlight, setSelectedFlight, order, setOrder }}>
